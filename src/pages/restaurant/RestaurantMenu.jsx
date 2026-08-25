@@ -49,59 +49,61 @@ export default function RestaurantMenu() {
         />
       </div>
 
-      {/* Menu Table */}
-      <div className="cb-card" style={{ padding: '20px' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '14px' }}>
-          <thead>
-            <tr style={{ borderBottom: '1.5px solid var(--border)', color: 'var(--text-muted)' }}>
-              <th style={{ padding: '12px 14px' }}>DISH</th>
-              <th style={{ padding: '12px 14px' }}>CATEGORY</th>
-              <th style={{ padding: '12px 14px' }}>PRICE</th>
-              <th style={{ padding: '12px 14px' }}>DIET</th>
-              <th style={{ padding: '12px 14px' }}>STOCK STATUS</th>
-              <th style={{ padding: '12px 14px', textAlign: 'right' }}>ACTIONS</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.map(item => (
-              <tr key={item.id} style={{ borderBottom: '1px solid var(--border)' }}>
-                <td style={{ padding: '16px 14px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <img src={item.image} alt={item.name} style={{ width: '48px', height: '48px', borderRadius: '8px', objectFit: 'cover' }} />
-                  <div>
-                    <h4 style={{ fontSize: '15px', fontWeight: '800', margin: 0 }}>{item.name}</h4>
-                    <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>★ {item.rating} ({item.reviews} reviews)</span>
-                  </div>
-                </td>
-                <td style={{ padding: '16px 14px', fontWeight: '700' }}>{item.category}</td>
-                <td style={{ padding: '16px 14px', fontWeight: '800' }}>₹{item.price}</td>
-                <td style={{ padding: '16px 14px' }}>
-                  <span className={`cb-badge ${item.isVeg ? 'cb-badge-success' : 'cb-badge-danger'}`} style={{ fontSize: '11px' }}>
-                    {item.isVeg ? 'VEG' : 'NON-VEG'}
-                  </span>
-                </td>
-                <td style={{ padding: '16px 14px' }}>
-                  <button 
-                    onClick={() => toggleStock(item.id)}
-                    className={`cb-badge ${item.inStock !== false ? 'cb-badge-success' : 'cb-badge-danger'}`}
-                    style={{ cursor: 'pointer', padding: '6px 12px' }}
-                  >
-                    {item.inStock !== false ? '● IN STOCK' : '● OUT OF STOCK'}
-                  </button>
-                </td>
-                <td style={{ padding: '16px 14px', textAlign: 'right' }}>
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
-                    <Link to={`/restaurant/menu/edit/${item.id}`} className="cb-btn cb-btn-outline cb-btn-sm" style={{ padding: '6px 10px' }}>
-                      <FiEdit2 />
-                    </Link>
-                    <button onClick={() => handleDelete(item.id)} className="cb-btn cb-btn-outline cb-btn-sm" style={{ padding: '6px 10px', color: 'var(--danger)', borderColor: 'var(--danger)' }}>
-                      <FiTrash2 />
-                    </button>
-                  </div>
-                </td>
+      {/* Menu Table with responsive horizontal scroll */}
+      <div className="cb-card" style={{ padding: '20px', overflow: 'hidden' }}>
+        <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', margin: '0 -20px', padding: '0 20px' }}>
+          <table style={{ width: '100%', minWidth: '640px', borderCollapse: 'collapse', textAlign: 'left', fontSize: '14px' }}>
+            <thead>
+              <tr style={{ borderBottom: '1.5px solid var(--border)', color: 'var(--text-muted)' }}>
+                <th style={{ padding: '12px 14px' }}>DISH</th>
+                <th style={{ padding: '12px 14px' }}>CATEGORY</th>
+                <th style={{ padding: '12px 14px' }}>PRICE</th>
+                <th style={{ padding: '12px 14px' }}>DIET</th>
+                <th style={{ padding: '12px 14px' }}>STOCK STATUS</th>
+                <th style={{ padding: '12px 14px', textAlign: 'right' }}>ACTIONS</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filtered.map(item => (
+                <tr key={item.id} style={{ borderBottom: '1px solid var(--border)' }}>
+                  <td style={{ padding: '16px 14px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <img src={item.image} alt={item.name} style={{ width: '48px', height: '48px', borderRadius: '8px', objectFit: 'cover' }} />
+                    <div>
+                      <h4 style={{ fontSize: '15px', fontWeight: '800', margin: 0 }}>{item.name}</h4>
+                      <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>★ {item.rating} ({item.reviews} reviews)</span>
+                    </div>
+                  </td>
+                  <td style={{ padding: '16px 14px', fontWeight: '700' }}>{item.category}</td>
+                  <td style={{ padding: '16px 14px', fontWeight: '800' }}>₹{item.price}</td>
+                  <td style={{ padding: '16px 14px' }}>
+                    <span className={`cb-badge ${item.isVeg ? 'cb-badge-success' : 'cb-badge-danger'}`} style={{ fontSize: '11px' }}>
+                      {item.isVeg ? 'VEG' : 'NON-VEG'}
+                    </span>
+                  </td>
+                  <td style={{ padding: '16px 14px' }}>
+                    <button 
+                      onClick={() => toggleStock(item.id)}
+                      className={`cb-badge ${item.inStock !== false ? 'cb-badge-success' : 'cb-badge-danger'}`}
+                      style={{ cursor: 'pointer', padding: '6px 12px', border: 'none' }}
+                    >
+                      {item.inStock !== false ? '● IN STOCK' : '● OUT OF STOCK'}
+                    </button>
+                  </td>
+                  <td style={{ padding: '16px 14px', textAlign: 'right' }}>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+                      <Link to={`/restaurant/menu/edit/${item.id}`} className="cb-btn cb-btn-outline cb-btn-sm" style={{ padding: '6px 10px' }}>
+                        <FiEdit2 />
+                      </Link>
+                      <button onClick={() => handleDelete(item.id)} className="cb-btn cb-btn-outline cb-btn-sm" style={{ padding: '6px 10px', color: 'var(--danger)', borderColor: 'var(--danger)' }}>
+                        <FiTrash2 />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
     </div>

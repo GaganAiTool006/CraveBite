@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FiStar, FiHeart, FiPlus, FiMinus, FiZap, FiArrowRight } from 'react-icons/fi';
+import { FiStar, FiHeart, FiPlus, FiMinus, FiZap } from 'react-icons/fi';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 
@@ -20,20 +20,11 @@ export default function FoodItemCard({ item, restaurant }) {
   };
 
   return (
-    <div 
-      className="cb-card"
-      style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        padding: '18px',
-        gap: '16px',
-        position: 'relative'
-      }}
-    >
+    <div className="cb-card cb-food-item-card">
       {/* Left Details */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+      <div className="cb-food-item-details">
         <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px', flexWrap: 'wrap' }}>
             {/* Veg / Non-Veg symbol */}
             <div style={{
               width: '16px',
@@ -42,7 +33,8 @@ export default function FoodItemCard({ item, restaurant }) {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              borderRadius: '3px'
+              borderRadius: '3px',
+              flexShrink: 0
             }}>
               <div style={{
                 width: '8px',
@@ -59,11 +51,11 @@ export default function FoodItemCard({ item, restaurant }) {
             )}
           </div>
 
-          <h4 style={{ fontSize: '16px', fontWeight: '800', color: 'var(--text-main)', marginBottom: '4px' }}>
+          <h4 className="cb-food-item-title">
             {item.name}
           </h4>
 
-          <div style={{ fontSize: '16px', fontWeight: '900', color: 'var(--text-main)', marginBottom: '6px' }}>
+          <div className="cb-food-item-price">
             ₹{item.price}
           </div>
 
@@ -75,22 +67,26 @@ export default function FoodItemCard({ item, restaurant }) {
             <span>({item.reviews || 120})</span>
           </div>
 
-          <p style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: '1.4', maxWidth: '420px', margin: 0 }}>
+          <p className="cb-food-item-desc">
             {item.description}
           </p>
         </div>
 
         {/* Favorite toggle */}
-        <div style={{ marginTop: '12px' }}>
+        <div style={{ marginTop: '10px' }}>
           <button
             onClick={() => toggleFavouriteFood(item.id)}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '6px',
+              gap: '5px',
               fontSize: '12px',
               fontWeight: '700',
-              color: isFav ? 'var(--danger)' : 'var(--text-muted)'
+              color: isFav ? 'var(--danger)' : 'var(--text-muted)',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              padding: '2px 0'
             }}
           >
             <FiHeart size={14} fill={isFav ? 'var(--danger)' : 'none'} />
@@ -99,46 +95,33 @@ export default function FoodItemCard({ item, restaurant }) {
         </div>
       </div>
 
-      {/* Right Image & Both ADD + BUY/ORDER NOW Controls */}
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '130px', flexShrink: 0 }}>
-        <div style={{ width: '130px', height: '100px', borderRadius: 'var(--radius-sm)', overflow: 'hidden', marginBottom: '8px' }}>
+      {/* Right Image & Action Buttons */}
+      <div className="cb-food-item-actions">
+        <div className="cb-food-item-image-wrapper">
           <img 
             src={item.image} 
             alt={item.name} 
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+            className="cb-food-item-image"
           />
         </div>
 
-        {/* Control Buttons Group */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', width: '100%', alignItems: 'center' }}>
-          
-          {/* Item Add/Quantity Box */}
+        {/* Control Buttons */}
+        <div className="cb-food-item-btn-group">
           {cartItem ? (
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              background: 'white',
-              border: '2px solid var(--primary)',
-              borderRadius: 'var(--radius-sm)',
-              boxShadow: 'var(--shadow-sm)',
-              width: '100%',
-              height: '34px',
-              padding: '0 8px'
-            }}>
+            <div className="cb-qty-selector">
               <button 
                 onClick={() => updateQuantity(item.id, -1)}
-                style={{ color: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '900', padding: '4px' }}
+                className="cb-qty-btn"
                 title="Decrease"
               >
                 <FiMinus size={13} />
               </button>
-              <span style={{ fontWeight: '900', fontSize: '14px', color: 'var(--primary)' }}>
+              <span className="cb-qty-value">
                 {cartItem.quantity}
               </span>
               <button 
                 onClick={() => updateQuantity(item.id, 1)}
-                style={{ color: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '900', padding: '4px' }}
+                className="cb-qty-btn"
                 title="Increase"
               >
                 <FiPlus size={13} />
@@ -147,58 +130,21 @@ export default function FoodItemCard({ item, restaurant }) {
           ) : (
             <button
               onClick={() => addToCart(item, restaurant, 1)}
-              style={{
-                background: 'white',
-                border: '1.5px solid var(--primary)',
-                color: 'var(--primary)',
-                fontWeight: '800',
-                fontSize: '12.5px',
-                borderRadius: 'var(--radius-sm)',
-                boxShadow: 'var(--shadow-sm)',
-                width: '100%',
-                height: '34px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '4px',
-                transition: 'all 0.2s',
-                cursor: 'pointer'
-              }}
-              onMouseOver={(e) => { e.currentTarget.style.background = 'var(--primary)'; e.currentTarget.style.color = 'white'; }}
-              onMouseOut={(e) => { e.currentTarget.style.background = 'white'; e.currentTarget.style.color = 'var(--primary)'; }}
+              className="cb-add-btn"
             >
               <FiPlus size={13} /> ADD
             </button>
           )}
 
-          {/* Persistent Instant ORDER NOW / BUY NOW Button (Always Visible!) */}
+          {/* Persistent Instant ORDER NOW / BUY NOW Button */}
           <button
             onClick={handleBuyNow}
-            style={{
-              background: 'linear-gradient(135deg, #F97316 0%, #EA580C 100%)',
-              color: 'white',
-              fontWeight: '900',
-              fontSize: '11.5px',
-              borderRadius: 'var(--radius-sm)',
-              boxShadow: '0 3px 10px rgba(249, 115, 22, 0.35)',
-              width: '100%',
-              height: '32px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '4px',
-              transition: 'all 0.15s ease',
-              cursor: 'pointer',
-              letterSpacing: '0.3px'
-            }}
-            onMouseOver={(e) => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 5px 14px rgba(249, 115, 22, 0.45)'; }}
-            onMouseOut={(e) => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 3px 10px rgba(249, 115, 22, 0.35)'; }}
+            className="cb-buynow-btn"
             title="Place order directly at checkout"
           >
-            <FiZap size={13} fill="white" />
-            <span>{cartItem ? `ORDER NOW (${cartItem.quantity})` : 'BUY NOW'}</span>
+            <FiZap size={12} fill="white" />
+            <span>{cartItem ? `ORDER (${cartItem.quantity})` : 'BUY NOW'}</span>
           </button>
-
         </div>
       </div>
     </div>

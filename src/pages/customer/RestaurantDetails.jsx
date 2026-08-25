@@ -175,19 +175,24 @@ export default function RestaurantDetails() {
         {/* Menu Filters Bar */}
         <div style={{
           background: 'white',
-          padding: '16px 20px',
+          padding: '16px',
           borderRadius: 'var(--radius-md)',
           boxShadow: 'var(--shadow-xs)',
           border: '1px solid var(--border)',
           display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
+          flexDirection: 'column',
           gap: '16px',
-          marginBottom: '32px'
+          marginBottom: '28px'
         }}>
-          {/* Categories Tab Selector */}
-          <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', scrollbarWidth: 'none' }}>
+          {/* Categories Tab Selector with touch scrolling */}
+          <div style={{
+            display: 'flex',
+            gap: '8px',
+            overflowX: 'auto',
+            scrollbarWidth: 'none',
+            WebkitOverflowScrolling: 'touch',
+            paddingBottom: '4px'
+          }}>
             {categories.map(cat => (
               <button
                 key={cat}
@@ -195,12 +200,14 @@ export default function RestaurantDetails() {
                 style={{
                   padding: '8px 16px',
                   borderRadius: 'var(--radius-full)',
-                  fontSize: '13.5px',
+                  fontSize: '13px',
                   fontWeight: '700',
                   whiteSpace: 'nowrap',
                   background: activeCategory === cat ? 'var(--primary)' : 'var(--bg-subtle)',
                   color: activeCategory === cat ? 'white' : 'var(--text-main)',
-                  transition: 'all 0.2s'
+                  transition: 'all 0.2s',
+                  cursor: 'pointer',
+                  border: 'none'
                 }}
               >
                 {cat}
@@ -209,7 +216,7 @@ export default function RestaurantDetails() {
           </div>
 
           {/* Pure Veg Switch & Dish search */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap' }}>
             <button
               onClick={() => setVegOnly(!vegOnly)}
               style={{
@@ -223,7 +230,8 @@ export default function RestaurantDetails() {
                 background: vegOnly ? 'var(--success-light)' : 'white',
                 color: vegOnly ? '#10B981' : 'var(--text-main)',
                 fontSize: '13px',
-                fontWeight: '700'
+                fontWeight: '700',
+                cursor: 'pointer'
               }}
             >
               <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10B981' }} />
@@ -241,7 +249,8 @@ export default function RestaurantDetails() {
                 border: '1.5px solid var(--border)',
                 fontSize: '13px',
                 outline: 'none',
-                width: '180px'
+                flex: 1,
+                minWidth: '160px'
               }}
             />
           </div>
