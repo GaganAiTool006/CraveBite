@@ -106,26 +106,49 @@ export default function AdminLayout() {
           flexShrink: 0
         }}>
           <div>
-            {/* Header */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '0 8px 24px 8px', borderBottom: '1px solid #1E293B', marginBottom: '20px' }}>
-              <div style={{
-                width: '38px',
-                height: '38px',
-                background: 'linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)',
-                borderRadius: '8px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'white',
-                fontWeight: '900',
-                fontSize: '18px'
-              }}>
-                <FiShield size={20} />
+            {/* Header with Close Button */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 4px 20px 4px', borderBottom: '1px solid #1E293B', marginBottom: '20px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div style={{
+                  width: '38px',
+                  height: '38px',
+                  background: 'linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'white',
+                  fontWeight: '900',
+                  fontSize: '18px'
+                }}>
+                  <FiShield size={20} />
+                </div>
+                <div>
+                  <span style={{ fontSize: '18px', fontWeight: '800', color: 'white' }}>CraveBite HQ</span>
+                  <span style={{ fontSize: '11px', color: '#10B981', fontWeight: '700', display: 'block' }}>Super Admin Console</span>
+                </div>
               </div>
-              <div>
-                <span style={{ fontSize: '18px', fontWeight: '800', color: 'white' }}>CraveBite HQ</span>
-                <span style={{ fontSize: '11px', color: '#10B981', fontWeight: '700', display: 'block' }}>Super Admin Console</span>
-              </div>
+
+              {/* Explicit CLOSE (✕) Button inside Drawer */}
+              <button
+                onClick={() => setMobileMenuOpen(false)}
+                className="cb-close-drawer-btn"
+                title="Close Menu"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  border: 'none',
+                  color: 'white',
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer'
+                }}
+              >
+                <FiX size={18} />
+              </button>
             </div>
 
             {/* Navigation */}

@@ -88,27 +88,50 @@ export default function ManagerLayout() {
           }}
         >
           <div>
-            {/* Header */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '0 8px 20px 8px', borderBottom: '1px solid #1E293B', marginBottom: '20px' }}>
-              <div style={{
-                width: '40px',
-                height: '40px',
-                background: 'linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)',
-                borderRadius: '10px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'white',
-                fontWeight: '900',
-                fontSize: '20px',
-                boxShadow: '0 4px 14px rgba(79, 70, 229, 0.4)'
-              }}>
-                <FiBriefcase size={20} />
+            {/* Header with Close Button */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 4px 20px 4px', borderBottom: '1px solid #1E293B', marginBottom: '20px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <div style={{
+                  width: '40px',
+                  height: '40px',
+                  background: 'linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)',
+                  borderRadius: '10px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'white',
+                  fontWeight: '900',
+                  fontSize: '20px',
+                  boxShadow: '0 4px 14px rgba(79, 70, 229, 0.4)'
+                }}>
+                  <FiBriefcase size={20} />
+                </div>
+                <div>
+                  <span style={{ fontSize: '17px', fontWeight: '900', color: 'white', display: 'block' }}>Operations</span>
+                  <span style={{ fontSize: '11px', color: '#10B981', fontWeight: '700' }}>● Manager Authority</span>
+                </div>
               </div>
-              <div>
-                <span style={{ fontSize: '17px', fontWeight: '900', color: 'white', display: 'block' }}>Operations</span>
-                <span style={{ fontSize: '11px', color: '#10B981', fontWeight: '700' }}>● Manager Authority</span>
-              </div>
+
+              {/* Explicit CLOSE (✕) Button inside Drawer */}
+              <button
+                onClick={() => setMobileOpen(false)}
+                className="cb-close-drawer-btn"
+                title="Close Menu"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  border: 'none',
+                  color: 'white',
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer'
+                }}
+              >
+                <FiX size={18} />
+              </button>
             </div>
 
             {/* Profile Pill */}
