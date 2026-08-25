@@ -1,11 +1,9 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { FiHome, FiCompass, FiSearch, FiPackage, FiHeart, FiUser } from 'react-icons/fi';
-import { useCart } from '../../context/CartContext';
+import { FiHome, FiCompass, FiSearch, FiPackage, FiUser } from 'react-icons/fi';
 
 export default function MobileNav() {
   const location = useLocation();
-  const { totalCartCount } = useCart();
   
   const isActive = (path) => {
     if (path === '/home') return location.pathname === '/home' || location.pathname === '/';
@@ -18,7 +16,7 @@ export default function MobileNav() {
         to="/home"
         className={`cb-mobile-nav-item ${isActive('/home') ? 'active' : ''}`}
       >
-        <FiHome size={20} />
+        <FiHome size={19} />
         <span>Home</span>
       </Link>
 
@@ -26,7 +24,7 @@ export default function MobileNav() {
         to="/restaurants"
         className={`cb-mobile-nav-item ${isActive('/restaurants') ? 'active' : ''}`}
       >
-        <FiCompass size={20} />
+        <FiCompass size={19} />
         <span>Explore</span>
       </Link>
 
@@ -34,7 +32,7 @@ export default function MobileNav() {
         to="/search"
         className={`cb-mobile-nav-item ${isActive('/search') ? 'active' : ''}`}
       >
-        <FiSearch size={20} />
+        <FiSearch size={19} />
         <span>Search</span>
       </Link>
 
@@ -42,23 +40,15 @@ export default function MobileNav() {
         to="/orders"
         className={`cb-mobile-nav-item ${isActive('/orders') ? 'active' : ''}`}
       >
-        <FiPackage size={20} />
+        <FiPackage size={19} />
         <span>Orders</span>
-      </Link>
-
-      <Link 
-        to="/favourites"
-        className={`cb-mobile-nav-item ${isActive('/favourites') ? 'active' : ''}`}
-      >
-        <FiHeart size={20} />
-        <span>Saved</span>
       </Link>
 
       <Link 
         to="/profile"
         className={`cb-mobile-nav-item ${isActive('/profile') || isActive('/profile/edit') ? 'active' : ''}`}
       >
-        <FiUser size={20} />
+        <FiUser size={19} />
         <span>Profile</span>
       </Link>
     </nav>
