@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import RoleSwitcherBar from '../components/common/RoleSwitcherBar';
@@ -10,13 +10,15 @@ import {
   FiUser, 
   FiTrendingUp, 
   FiLogOut,
-  FiArrowLeft
+  FiArrowLeft,
+  FiX
 } from 'react-icons/fi';
 
 export default function RestaurantLayout() {
   const { currentUser, logout } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
     { label: 'Overview', path: '/restaurant/dashboard', icon: <FiGrid size={18} /> },
@@ -32,10 +34,58 @@ export default function RestaurantLayout() {
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#F1F5F9' }}>
       <RoleSwitcherBar />
+
+      {/* Mobile Top Header Bar */}
+      <div className="cb-portal-mobile-bar">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <button 
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: 'white',
+              fontSize: '22px',
+              display: 'flex',
+              alignItems: 'center',
+              cursor: 'pointer',
+              padding: '4px'
+            }}
+          >
+            {mobileMenuOpen ? <FiX /> : <FiMenu />}
+          </button>
+          <span style={{ color: 'white', fontWeight: '800', fontSize: '16px' }}>
+            Merchant Console
+          </span>
+        </div>
+
+        <button
+          onClick={() => { logout(); navigate('/restaurant/login'); }}
+          style={{
+            background: 'rgba(239, 68, 68, 0.2)',
+            color: '#F87171',
+            border: 'none',
+            padding: '6px 12px',
+            borderRadius: 'var(--radius-xs)',
+            fontSize: '12px',
+            fontWeight: '800',
+            cursor: 'pointer'
+          }}
+        >
+          Logout
+        </button>
+      </div>
+
+      {/* Mobile Sidebar Backdrop */}
+      {mobileMenuOpen && (
+        <div 
+          className="cb-portal-backdrop"
+          onClick={() => setMobileMenuOpen(false)} 
+        />
+      )}
       
-      <div style={{ display: 'flex', flex: 1 }}>
+      <div style={{ display: 'flex', flex: 1, position: 'relative' }}>
         {/* Sidebar */}
-        <aside style={{
+        <aside className={`cb-portal-sidebar ${mobileMenuOpen ? 'mobile-show' : ''}`} style={{
           width: '260px',
           background: '#0F172A',
           color: '#94A3B8',
@@ -43,7 +93,8 @@ export default function RestaurantLayout() {
           flexDirection: 'column',
           justifyContent: 'space-between',
           padding: '24px 16px',
-          borderRight: '1px solid #1E293B'
+          borderRight: '1px solid #1E293B',
+          flexShrink: 0
         }}>
           <div>
             {/* Logo */}
@@ -64,7 +115,7 @@ export default function RestaurantLayout() {
               </div>
               <div>
                 <span style={{ fontSize: '18px', fontWeight: '800', color: 'white' }}>Partner Portal</span>
-                <p style={{ fontSize: '11px', color: '#64748B', fontWeight: '700' }}>CraveBite Kitchens</p>
+                <p style={{ fontSize: '11px', color: '#64748B', fontWeight: '700', margin: 0 }}>CraveBite Kitchens</p>
               </div>
             </div>
 
@@ -73,7 +124,7 @@ export default function RestaurantLayout() {
               background: '#1E293B',
               padding: '12px',
               borderRadius: 'var(--radius-sm)',
-              marginBottom: '24px',
+              marginBottom: '20px',
               display: 'flex',
               alignItems: 'center',
               gap: '10px'
@@ -84,7 +135,7 @@ export default function RestaurantLayout() {
                 style={{ width: '36px', height: '36px', borderRadius: '6px', objectFit: 'cover' }} 
               />
               <div style={{ overflow: 'hidden' }}>
-                <p style={{ color: 'white', fontSize: '13px', fontWeight: '700', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
+                <p style={{ color: 'white', fontSize: '13px', fontWeight: '700', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', margin: 0 }}>
                   {currentUser?.restaurantName || 'Artisan Burger Co.'}
                 </p>
                 <span style={{ fontSize: '11px', color: '#10B981', fontWeight: '700' }}>● Live & Accepting</span>
@@ -97,6 +148,7 @@ export default function RestaurantLayout() {
                 <Link
                   key={item.path}
                   to={item.path}
+                  onClick={() => setMobileMenuOpen(false)}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -117,7 +169,7 @@ export default function RestaurantLayout() {
             </nav>
           </div>
 
-          <div>
+          <div style={{ marginTop: '24px' }}>
             <Link
               to="/home"
               style={{
@@ -146,7 +198,9 @@ export default function RestaurantLayout() {
                 fontWeight: '700',
                 color: 'var(--danger)',
                 background: 'rgba(239, 68, 68, 0.1)',
-                borderRadius: 'var(--radius-sm)'
+                borderRadius: 'var(--radius-sm)',
+                border: 'none',
+                cursor: 'pointer'
               }}
             >
               <FiLogOut size={16} /> Logout Partner
@@ -155,7 +209,7 @@ export default function RestaurantLayout() {
         </aside>
 
         {/* Content area */}
-        <main style={{ flex: 1, padding: '32px', overflowY: 'auto' }}>
+        <main className="cb-portal-main" style={{ flex: 1, padding: '32px', overflowY: 'auto', minWidth: 0 }}>
           <Outlet />
         </main>
       </div>

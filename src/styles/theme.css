@@ -783,19 +783,29 @@ button {
 }
 
 @media (max-width: 768px) {
-  .cb-manager-mobile-bar {
+  .cb-manager-mobile-bar, .cb-portal-mobile-bar {
     display: flex !important;
   }
-  .cb-manager-sidebar {
-    position: fixed;
-    top: 56px;
-    left: -280px;
-    bottom: 0;
-    z-index: 998;
-    transition: left 0.3s ease;
+  .cb-portal-backdrop {
+    display: block !important;
   }
-  .cb-manager-sidebar.mobile-show {
+  .cb-manager-sidebar, .cb-portal-sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    left: -290px !important;
+    bottom: 0 !important;
+    z-index: 999 !important;
+    height: 100vh !important;
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5) !important;
+    overflow-y: auto !important;
+  }
+  .cb-manager-sidebar.mobile-show, .cb-portal-sidebar.mobile-show {
     left: 0 !important;
+  }
+  .cb-portal-main {
+    padding: 20px 14px !important;
+    width: 100% !important;
   }
 }
 

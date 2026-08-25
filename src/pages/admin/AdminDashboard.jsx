@@ -79,32 +79,34 @@ export default function AdminDashboard() {
           </Link>
         </div>
 
-        <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13.5px' }}>
-          <thead>
-            <tr style={{ borderBottom: '1.5px solid var(--border)', color: 'var(--text-muted)' }}>
-              <th style={{ padding: '12px 14px' }}>ORDER ID</th>
-              <th style={{ padding: '12px 14px' }}>RESTAURANT</th>
-              <th style={{ padding: '12px 14px' }}>CUSTOMER ADDRESS</th>
-              <th style={{ padding: '12px 14px' }}>AMOUNT</th>
-              <th style={{ padding: '12px 14px' }}>STATUS</th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders.map(o => (
-              <tr key={o.orderId} style={{ borderBottom: '1px solid var(--border)' }}>
-                <td style={{ padding: '14px', fontWeight: '800' }}>#{o.orderId}</td>
-                <td style={{ padding: '14px', fontWeight: '700' }}>{o.restaurantName}</td>
-                <td style={{ padding: '14px', color: 'var(--text-muted)' }}>{o.deliveryAddress?.flat}, {o.deliveryAddress?.area}</td>
-                <td style={{ padding: '14px', fontWeight: '800' }}>₹{o.totalAmount}</td>
-                <td style={{ padding: '14px' }}>
-                  <span className={`cb-badge ${o.orderStatus === 'Delivered' ? 'cb-badge-success' : 'cb-badge-warning'}`}>
-                    {o.orderStatus}
-                  </span>
-                </td>
+        <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', margin: '0 -24px', padding: '0 24px' }}>
+          <table style={{ width: '100%', minWidth: '600px', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13.5px' }}>
+            <thead>
+              <tr style={{ borderBottom: '1.5px solid var(--border)', color: 'var(--text-muted)' }}>
+                <th style={{ padding: '12px 14px' }}>ORDER ID</th>
+                <th style={{ padding: '12px 14px' }}>RESTAURANT</th>
+                <th style={{ padding: '12px 14px' }}>CUSTOMER ADDRESS</th>
+                <th style={{ padding: '12px 14px' }}>AMOUNT</th>
+                <th style={{ padding: '12px 14px' }}>STATUS</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {orders.map(o => (
+                <tr key={o.orderId} style={{ borderBottom: '1px solid var(--border)' }}>
+                  <td style={{ padding: '14px', fontWeight: '800' }}>#{o.orderId}</td>
+                  <td style={{ padding: '14px', fontWeight: '700' }}>{o.restaurantName}</td>
+                  <td style={{ padding: '14px', color: 'var(--text-muted)' }}>{o.deliveryAddress?.flat}, {o.deliveryAddress?.area}</td>
+                  <td style={{ padding: '14px', fontWeight: '800' }}>₹{o.totalAmount}</td>
+                  <td style={{ padding: '14px' }}>
+                    <span className={`cb-badge ${o.orderStatus === 'Delivered' ? 'cb-badge-success' : 'cb-badge-warning'}`}>
+                      {o.orderStatus}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
     </div>
