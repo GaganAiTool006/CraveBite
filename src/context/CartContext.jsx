@@ -90,7 +90,7 @@ export function CartProvider({ children }) {
     ];
   });
 
-  // Sync cart when user switches
+  // Sync cart & orders when user switches
   useEffect(() => {
     const userKey = currentUser?.uid || 'guest';
     try {
@@ -98,6 +98,22 @@ export function CartProvider({ children }) {
       const savedRest = localStorage.getItem(`cravebite_cart_rest_${userKey}`);
       setCart(savedCart ? JSON.parse(savedCart) : []);
       setCartRestaurant(savedRest ? JSON.parse(savedRest) : null);
+
+      // Load user-specific orders
+      const savedUserOrders = localStorage.getItem(`cravebite_orders_${userKey}`);
+      if (savedUserOrders) {
+        setOrders(JSON.parse(savedUserOrders));
+      } else {
+        const allOrders = localStorage.getItem('cravebite_all_orders');
+        if (allOrders) {
+          const parsed = JSON.parse(allOrders);
+          // For customers, filter to their own orders if available
+          const filtered = currentUser?.role === 'customer' 
+            ? parsed.filter(o => o.userId === currentUser.uid)
+            : parsed;
+          setOrders(filtered.length > 0 ? filtered : parsed);
+        }
+      }
     } catch {}
   }, [currentUser]);
 
@@ -108,10 +124,25 @@ export function CartProvider({ children }) {
     localStorage.setItem(`cravebite_cart_rest_${userKey}`, JSON.stringify(cartRestaurant));
   }, [cart, cartRestaurant, currentUser]);
 
-  // Persist orders
+  // Persist orders per user and master list
   useEffect(() => {
-    localStorage.setItem('cravebite_all_orders', JSON.stringify(orders));
-  }, [orders]);
+    const userKey = currentUser?.uid || 'guest';
+    if (orders.length > 0) {
+      localStorage.setItem(`cravebite_orders_${userKey}`, JSON.stringify(orders));
+      
+      // Update global orders registry
+      try {
+        const existingAll = JSON.parse(localStorage.getItem('cravebite_all_orders') || '[]');
+        const merged = [...orders];
+        existingAll.forEach(o => {
+          if (!merged.find(m => m.orderId === o.orderId)) {
+            merged.push(o);
+          }
+        });
+        localStorage.setItem('cravebite_all_orders', JSON.stringify(merged));
+      } catch (err) {}
+    }
+  }, [orders, currentUser]);
 
   // Cart operations
   const addToCart = (item, restaurant, quantity = 1) => {
